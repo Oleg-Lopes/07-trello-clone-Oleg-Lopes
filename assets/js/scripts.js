@@ -28,7 +28,7 @@ $(function() {
 
     $(document).on("mouseenter mouseleave", ".card", function() {
         $(this)
-            .children(".fa-pencil-square-o")
+            .children(".fa-edit")
             .toggleClass("hide");
     });
 });

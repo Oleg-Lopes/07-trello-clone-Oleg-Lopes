@@ -12,6 +12,9 @@ html
     outline: none
 ////////////////////////////
 
+.fa, .far, .fas
+    font-family: 'fontawesome'
+
 body
     background-color: #0079bf
     font-family: helvetica
@@ -45,9 +48,6 @@ body
                 margin: 5px 0 10px 15px
                 font-size: 18px
                 color: #f6f6f6
-            .fa
-                cursor: pointer
-                font-size: 24px
         #columns-container
             display: flex
             #columns
@@ -81,15 +81,15 @@ body
                                 padding: 1px 0 0 0
                                 white-space: normal
                                 font-size: 14px
-                            .fa-pencil-square-o
+                            .fa-edit
                                 position: absolute
                                 top: 6px
                                 right: 6px
-                                padding: 2px 0 1px 4px
                                 font-size: 22px
                                 cursor: pointer
+                                color: #a3a3a3
                                 &:hover
-                                    background-color: #E2E4E6
+                                    color: #333
                                     border-radius: 3px
             #add-column
                 margin: 0 0 0 10px

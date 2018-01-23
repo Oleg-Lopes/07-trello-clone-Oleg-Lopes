@@ -13,6 +13,10 @@ html {
   outline: none;
 }
 
+.fa, .far, .fas {
+  font-family: 'fontawesome';
+}
+
 body {
   background-color: #0079bf;
   font-family: helvetica;
@@ -58,11 +62,6 @@ body main #top-info h2 {
   margin: 5px 0 10px 15px;
   font-size: 18px;
   color: #f6f6f6;
-}
-
-body main #top-info .fa {
-  cursor: pointer;
-  font-size: 24px;
 }
 
 body main #columns-container {
@@ -112,17 +111,17 @@ body main #columns-container #columns .column .cards .card p {
   font-size: 14px;
 }
 
-body main #columns-container #columns .column .cards .card .fa-pencil-square-o {
+body main #columns-container #columns .column .cards .card .fa-edit {
   position: absolute;
   top: 6px;
   right: 6px;
-  padding: 2px 0 1px 4px;
   font-size: 22px;
   cursor: pointer;
+  color: #a3a3a3;
 }
 
-body main #columns-container #columns .column .cards .card .fa-pencil-square-o:hover {
-  background-color: #E2E4E6;
+body main #columns-container #columns .column .cards .card .fa-edit:hover {
+  color: #333;
   border-radius: 3px;
 }
 
