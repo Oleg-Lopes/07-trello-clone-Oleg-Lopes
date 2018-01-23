@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css?family=Courgette");
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+*:focus, *:active {
+  outline: none;
+}
+
+body {
+  background-color: #0079bf;
+  font-family: helvetica;
+}
+
+body .hide {
+  display: none;
+}
+
+body .placeholder {
+  visibility: visible !important;
+}
+
+body header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 40px;
+  width: 100%;
+  padding: 5px 0;
+  color: #7FB3D1;
+  background-color: #0067a3;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+body header img {
+  opacity: 0.5;
+}
+
+body header h1 {
+  font-family: 'Courgette', cursive;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+body main {
+  padding-top: 45px;
+}
+
+body main #top-info h2 {
+  display: inline-block;
+  margin: 5px 0 10px 15px;
+  font-size: 18px;
+  color: #f6f6f6;
+}
+
+body main #top-info .fa {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+body main #columns-container {
+  display: flex;
+}
+
+body main #columns-container #columns {
+  display: flex;
+  height: 600px;
+  white-space: nowrap;
+  color: #4d4d4d;
+}
+
+body main #columns-container #columns .column {
+  display: inline-block;
+  background-color: #E2E4E6;
+  padding: 9px 8px 0 8px;
+  height: 100%;
+  width: 270px;
+  margin-left: 10px;
+  border-radius: 3px;
+}
+
+body main #columns-container #columns .column h3 {
+  padding: 0 0 9px 3px;
+  font-size: 14px;
+  color: #333;
+}
+
+body main #columns-container #columns .column .cards {
+  min-height: 30px;
+}
+
+body main #columns-container #columns .column .cards .card {
+  position: relative;
+  margin-bottom: 8px;
+  padding: 7px 10px;
+  min-height: 33px;
+  background-color: #fff;
+  border-radius: 3px;
+  border-bottom: 1px solid #cccccc;
+}
+
+body main #columns-container #columns .column .cards .card p {
+  padding: 1px 0 0 0;
+  white-space: normal;
+  font-size: 14px;
+}
+
+body main #columns-container #columns .column .cards .card .fa-pencil-square-o {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 2px 0 1px 4px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+body main #columns-container #columns .column .cards .card .fa-pencil-square-o:hover {
+  background-color: #E2E4E6;
+  border-radius: 3px;
+}
+
+body main #columns-container #add-column {
+  margin: 0 0 0 10px;
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
