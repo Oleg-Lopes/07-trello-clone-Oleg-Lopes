@@ -1,4 +1,4 @@
-function makeSortable() {
+function sortInit() {
     // making columns and cards sortable
     // also showing drop placeholder
     $("#columns").disableSelection();
@@ -7,15 +7,24 @@ function makeSortable() {
         change: function(event, ui) {
             ui.placeholder.css({
                 visibility: "visible",
-                backgroundColor: "#838c91"
+                backgroundColor: "#838c91",
+                height: ui.item.height()
             });
-        }
+        },
+        tolerance: "pointer"
     });
     $("#columns").sortable({
-        change: function(event, ui) {
+        tolerance: "pointer",
+        helper: "clone",
+        placeholder: "ui-state-highlight",
+        forcePlaceholderSize: true,
+        over: function(event, ui) {
+            $(".ui-state-highlight").addClass(ui.item.attr("class"));
             ui.placeholder.css({
                 visibility: "visible",
-                backgroundColor: "#838c91"
+                backgroundColor: "#026aa7",
+                border: "none",
+                height: ui.item.height() + 30
             });
         }
     });
@@ -43,7 +52,9 @@ function saveCard(card) {
 }
 
 $(function() {
-    makeSortable(); // making things sortable
+    sortInit(); // making things sortable
+    $("#add-column").trigger("click");
+    $(".column:last > .add-card").trigger("click");
     var card = null;
     var column_name = null;
 
@@ -175,7 +186,7 @@ $(function() {
         $(this)
             .siblings("#columns")
             .append(column_temp);
-        makeSortable(); // adding more columns and making them sortable
+        sortInit(); // adding more columns and making them sortable
     });
 
     $(document).on("click", ".add-card", function() {
