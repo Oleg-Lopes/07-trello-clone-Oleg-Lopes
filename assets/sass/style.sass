@@ -13,11 +13,50 @@ html
 ////////////////////////////
 
 body
-    background-color: #0079bf
+    background: #0079bf
     font-family: helvetica
     
     .fa, .far, .fas
         font-family: 'fontawesome'
+        
+    .hide
+        display: none
+
+    #overlay
+        position: absolute
+        top: 0
+        left: 0
+        width: 100vw
+        height: 100vh
+        background: #000
+        opacity: 0.6
+        z-index: 500
+    #card-dialog
+        background: #EDEFF0
+        border-radius: 3px
+        p
+            margin: 0 65px 0 0
+            padding: 17px 0 0 20px
+            font-size: 20px
+            font-weight: 700
+        .fa-times
+            position: absolute
+            top: 10px
+            right: 10px
+            padding: 7px 10px 7px 7px
+            font-size: 36px
+            cursor: pointer
+
+    .ui-dialog-titlebar
+        display: none
+    .ui-dialog
+        padding: 0
+        margin-top: 50px
+        z-index: 999
+    .ui-dialog .ui-dialog-content
+        padding: 0
+    .ui-widget.ui-widget-content
+        border: none
 
     #card-edit-desc
         width: 254px
@@ -37,7 +76,7 @@ body
             margin: 5px 0 10px 0
             width: 100px
             height: 30px
-            background-color: green
+            background: green
             border: none
             border-radius: 3px
             cursor: pointer
@@ -56,10 +95,7 @@ body
             border: 1px solid #0079bf
             border-radius: 3px
             box-shadow: 0 0 2px 0 #0284c6
-    
-    .hide
-        display: none
-    
+        
     header
         display: flex
         justify-content: center
@@ -69,7 +105,7 @@ body
         width: 100%
         padding: 5px 0
         color: #7FB3D1
-        background-color: #0067a3
+        background: #0067a3
         box-shadow: 0 1px 1px rgba(0,0,0,.1)
         img
             opacity: 0.5
@@ -97,7 +133,7 @@ body
                 .column
                     position: relative
                     align-self: flex-start
-                    background-color: #E2E4E6
+                    background: #E2E4E6
                     padding: 0px 8px 30px 8px
                     width: 270px
                     margin-left: 10px
@@ -113,13 +149,12 @@ body
                         .card
                             position: relative
                             margin-bottom: 8px
-                            padding: 7px 10px
+                            padding: 8px 10px 7px 10px
                             min-height: 33px
-                            background-color: #fff
+                            background: #fff
                             border-radius: 3px
                             border-bottom: 1px solid rgb(204, 204, 204)
                             p
-                                padding: 1px 0 0 0
                                 white-space: normal
                                 font-size: 14px
                             .fa-edit
@@ -133,7 +168,7 @@ body
                                     color: #333
                                     border-radius: 3px
                             &:hover
-                                background-color: #edeff0
+                                background: #edeff0
                                 cursor: pointer
                     .add-card
                         position: absolute
@@ -145,14 +180,14 @@ body
                         text-align: left
                         color: #838c91
                         font-size: 14px
-                        background-color: #E2E4E6
+                        background: #E2E4E6
                         border: none
                         border-radius: 0 0 3px 3px
                         cursor: pointer
                         &:hover
                             text-decoration: underline
                             color: #4d4d4d
-                            background-color: #CDD2D4
+                            background: #CDD2D4
             #add-column
                 margin: 0 10px 0 10px
                 width: 100px

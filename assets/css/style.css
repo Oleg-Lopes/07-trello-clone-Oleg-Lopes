@@ -14,12 +14,66 @@ html {
 }
 
 body {
-  background-color: #0079bf;
+  background: #0079bf;
   font-family: helvetica;
 }
 
 body .fa, body .far, body .fas {
   font-family: 'fontawesome';
+}
+
+body .hide {
+  display: none;
+}
+
+body #overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  opacity: 0.6;
+  z-index: 500;
+}
+
+body #card-dialog {
+  background: #EDEFF0;
+  border-radius: 3px;
+}
+
+body #card-dialog p {
+  margin: 0 65px 0 0;
+  padding: 17px 0 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+body #card-dialog .fa-times {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 7px 10px 7px 7px;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+body .ui-dialog-titlebar {
+  display: none;
+}
+
+body .ui-dialog {
+  padding: 0;
+  margin-top: 50px;
+  z-index: 999;
+}
+
+body .ui-dialog .ui-dialog-content {
+  padding: 0;
+}
+
+body .ui-widget.ui-widget-content {
+  border: none;
 }
 
 body #card-edit-desc {
@@ -44,7 +98,7 @@ body #card-edit-desc button {
   margin: 5px 0 10px 0;
   width: 100px;
   height: 30px;
-  background-color: green;
+  background: green;
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -65,10 +119,6 @@ body #column-edit-name #column-edit-name-input {
   box-shadow: 0 0 2px 0 #0284c6;
 }
 
-body .hide {
-  display: none;
-}
-
 body header {
   display: flex;
   justify-content: center;
@@ -78,7 +128,7 @@ body header {
   width: 100%;
   padding: 5px 0;
   color: #7FB3D1;
-  background-color: #0067a3;
+  background: #0067a3;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
@@ -119,7 +169,7 @@ body main #columns-container #columns {
 body main #columns-container #columns .column {
   position: relative;
   align-self: flex-start;
-  background-color: #E2E4E6;
+  background: #E2E4E6;
   padding: 0px 8px 30px 8px;
   width: 270px;
   margin-left: 10px;
@@ -141,15 +191,14 @@ body main #columns-container #columns .column .cards {
 body main #columns-container #columns .column .cards .card {
   position: relative;
   margin-bottom: 8px;
-  padding: 7px 10px;
+  padding: 8px 10px 7px 10px;
   min-height: 33px;
-  background-color: #fff;
+  background: #fff;
   border-radius: 3px;
   border-bottom: 1px solid #cccccc;
 }
 
 body main #columns-container #columns .column .cards .card p {
-  padding: 1px 0 0 0;
   white-space: normal;
   font-size: 14px;
 }
@@ -169,7 +218,7 @@ body main #columns-container #columns .column .cards .card .fa-edit:hover {
 }
 
 body main #columns-container #columns .column .cards .card:hover {
-  background-color: #edeff0;
+  background: #edeff0;
   cursor: pointer;
 }
 
@@ -183,7 +232,7 @@ body main #columns-container #columns .column .add-card {
   text-align: left;
   color: #838c91;
   font-size: 14px;
-  background-color: #E2E4E6;
+  background: #E2E4E6;
   border: none;
   border-radius: 0 0 3px 3px;
   cursor: pointer;
@@ -192,7 +241,7 @@ body main #columns-container #columns .column .add-card {
 body main #columns-container #columns .column .add-card:hover {
   text-decoration: underline;
   color: #4d4d4d;
-  background-color: #CDD2D4;
+  background: #CDD2D4;
 }
 
 body main #columns-container #add-column {

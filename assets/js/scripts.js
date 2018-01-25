@@ -4,14 +4,19 @@ function sortInit() {
     $("#columns").disableSelection();
     $(".cards").sortable({
         connectWith: ".cards",
-        change: function(event, ui) {
+        tolerance: "pointer",
+        helper: "clone",
+        placeholder: "ui-state-highlight",
+        forcePlaceholderSize: true,
+        over: function(event, ui) {
+            $(".ui-state-highlight").addClass(ui.item.attr("class"));
             ui.placeholder.css({
                 visibility: "visible",
                 backgroundColor: "#838c91",
-                height: ui.item.height()
+                border: "none",
+                height: ui.item.height() + 16
             });
-        },
-        tolerance: "pointer"
+        }
     });
     $("#columns").sortable({
         tolerance: "pointer",
@@ -26,7 +31,8 @@ function sortInit() {
                 border: "none",
                 height: ui.item.height() + 30
             });
-        }
+        },
+        scroll: false
     });
 }
 
@@ -34,29 +40,52 @@ function saveColumn(column_name) {
     let column_name_new = $("#column-edit-name-input").val(); // getting new name
     $("#column-edit-name").replaceWith(column_name[0]); // getting column name back
     column_name.text(column_name_new); // inserting new name
-    $("#column-edit-name-input").unbind(); // unbinding event listeners
     column_name = null;
 }
 
 function saveCard(card) {
     let card_desc_new = $("#card-edit-desc-textarea").val(); // getting new description
     if (!card_desc_new.trim()) {
-        $("#card-edit-desc-textarea").focus(); // if its empty - focus on textarea again
+        $("#card-edit-desc-textarea")
+            .focus()
+            .effect("shake", { distance: 5 }); // if its empty - focus on textarea again
     } else {
         $("#card-edit-desc").replaceWith(card[0]); // getting card back
         card.children("p").text(card_desc_new); // inserting new description
         card.children("i").addClass("hide"); // hiding icon
-        $("#card-edit-desc-save, #card-edit-desc-textarea").unbind(); // unbinding event listeners
         card = null;
     }
 }
+
+function cancelCard(card) {
+    $("#card-edit-desc").replaceWith(card[0]);
+    card.children("i").addClass("hide");
+    card = null; // resetting card var
+}
+
+function preventEmptyCard(card) {
+    if ($("#card-edit-desc").length) {
+        $("#card-edit-desc").replaceWith(card[0]); // replacing cards description changing with card itslef
+        card.children("i").addClass("hide"); // hiding icon
+        if (!card.children("p").text()) {
+            card.remove(); // if card was empty before (newly created) and still is - delete it
+        }
+        card = null; // resetting card var
+    }
+}
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 $(function() {
     sortInit(); // making things sortable
     $("#add-column").trigger("click");
     $(".column:last > .add-card").trigger("click");
-    var card = null;
     var column_name = null;
+    var card = null;
+    var card_dialog = null;
+    var dialog = $("#card-dialog");
 
     // card mockup
     const card_temp =
@@ -73,31 +102,62 @@ $(function() {
         "<button class='add-card ignore'>Add a card...</button>" +
         "</div>";
 
+    ////////////////////////////
+    ////////// DIALOG //////////
+    ////////////////////////////
+    $("#card-dialog").dialog({
+        autoOpen: false,
+        draggable: false,
+        resizable: false,
+        width: 750,
+        minHeight: 600,
+        position: {
+            at: "center top",
+            my: "center"
+        },
+        close: function() {
+            $("#overlay").addClass("hide");
+        }
+    });
+    $(document).on("click", ".card", function(e) {
+        if (!$(e.target).hasClass("fa-edit")) {
+            if (card != null) {
+                preventEmptyCard(card);
+                cancelCard(card);
+            } // resetting if edit is open
+            dialog.dialog("open");
+            $("#overlay").removeClass("hide");
+            card_dialog = $(this);
+            dialog.children("p").text(card_dialog.children("p").text());
+        }
+        $("#overlay").click(function() {
+            dialog.dialog("close");
+        });
+    });
+    ////////////////////////////
+    ////////// DIALOG //////////
+    ////////////////////////////
+
     // handling all clicks off the targets, to close dialogs/input and etc.
     $(document).on("click", function(e) {
         if (
             !$(e.target).closest(".ignore").length &&
             !$(e.target).hasClass("ignore")
         ) {
-            if ($("#card-edit-desc").length) {
-                $("#card-edit-desc").replaceWith(card[0]); // replacing cards description changing with card itslef
-                card.children("i").addClass("hide"); // hiding icon
-                if (!card.children("p").text()) {
-                    card.remove(); // if card was empty before (newly created) and still is - delete it
-                }
-                card = null; // resetting card var
-            }
+            preventEmptyCard(card);
             if ($("#column-edit-name").length) {
                 saveColumn(column_name); // saving column name when clicking somewhere else on the screen
             }
         }
     });
 
-    // to be used later
-    // $(document).on("keydown", function(e) {
-    //     if (e.which == 27) {
-    //     }
-    // });
+    $(document).on("keydown", function(e) {
+        if (e.which == 27) {
+            if (dialog.dialog("isOpen")) {
+                dialog.dialog("close");
+            }
+        }
+    });
 
     // changing column name
     $(document).on("click", ".column-name", function() {
@@ -126,9 +186,8 @@ $(function() {
     // changing card description
     $(document).on("click", ".fa-edit", function(e) {
         if (card != null) {
-            $("#card-edit-desc").replaceWith(card[0]);
-            card.children("i").addClass("hide");
-            card = null; // resetting card var
+            preventEmptyCard(card);
+            cancelCard(card);
         } // resetting if another edit is open
 
         // show card description editing field
