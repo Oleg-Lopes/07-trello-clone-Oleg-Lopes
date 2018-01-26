@@ -1,3 +1,57 @@
+function loadCards(card, cards) {
+    cards[
+        "card" +
+            parseInt(
+                $(card)
+                    .attr("id")
+                    .split("card")[1]
+            )
+    ] = {
+        name: $(card)
+            .children("p")
+            .text()
+            .trim(),
+        column: $(card)
+            .closest(".column")
+            .attr("id")
+            .split("column")[1],
+        description: "Here's some default description.",
+        deadline: "none",
+        contributors: "",
+        misc: {
+            backgroundColor: "fff",
+            backgroundColorHover: "edeff0",
+            color: "4d4d4d"
+        }
+    };
+    let card_id =
+        "card" +
+        $(card)
+            .attr("id")
+            .split("card")[1];
+    applyCard(card_id, cards);
+}
+
+function applyCard(card_id, cards) {
+    $("#" + card_id)
+        .css({
+            background: "#" + cards[card_id].misc.backgroundColor,
+            color: "#" + cards[card_id].misc.color
+        })
+        .on({
+            mouseenter: function() {
+                $(this).css({
+                    background: "#" + cards[card_id].misc.backgroundColorHover
+                });
+            },
+            mouseleave: function() {
+                $(this).css({
+                    background: "#" + cards[card_id].misc.backgroundColor
+                });
+            }
+        });
+}
+
 function sortInit() {
     // making columns and cards sortable
     // also showing drop placeholder
@@ -55,25 +109,7 @@ function saveCard(card_backup, cards) {
         card_backup.children("i").addClass("hide"); // hiding icon
         card_backup = null;
 
-        cards[
-            "card" +
-                parseInt(
-                    $(".card:last")
-                        .attr("id")
-                        .split("card")[1]
-                )
-        ] = {
-            name: $(".card:last")
-                .children("p")
-                .text()
-                .trim(),
-            column: $(".card:last")
-                .closest(".column")
-                .attr("id")
-                .split("column")[1],
-            description: "Here's some default description.",
-            deadline: "none"
-        };
+        loadCards($(".card:last"), cards);
     }
 }
 
@@ -101,32 +137,10 @@ function preventEmptyCard(card_backup) {
 $(function() {
     var cards = {};
     $(".card").each(function() {
-        cards[
-            "card" +
-                parseInt(
-                    $(this)
-                        .attr("id")
-                        .split("card")[1]
-                )
-        ] = {
-            name: $(this)
-                .children("p")
-                .text()
-                .trim(),
-            column: $(this)
-                .closest(".column")
-                .attr("id")
-                .split("column")[1],
-            description: "Here's some default description.",
-            deadline: "none"
-        };
+        loadCards(this, cards);
     }); // loading hardcoded cards into array
 
-    console.log(cards);
-
     sortInit(); // making things sortable
-    $("#add-column").trigger("click");
-    $(".column:last > .add-card").trigger("click");
     var column_name = null;
     var card_last_id = parseInt(
         $(".card:last")
@@ -159,6 +173,7 @@ $(function() {
         },
         close: function() {
             $("#overlay").addClass("hide");
+            $(".color").unbind("click");
         }
     });
     $(document).on("click", ".card", function(e) {
@@ -187,12 +202,77 @@ $(function() {
             $("#datepicker").datepicker({
                 onSelect: function(date) {
                     cards[card_id].deadline = date;
-                }
+                },
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "DD, d MM, yy"
             });
             $("#description p").text(cards[card_id].description);
             $("#deadline p input").val(cards[card_id].deadline);
+            $("#contributors p").val(cards[card_id].contributors);
+
+            if (cards[card_id].misc.backgroundColor == "#fff") {
+                $("#colors")
+                    .find(".color")
+                    .children("i")
+                    .removeClass("fa-check");
+            } else {
+                $("#colors")
+                    .find(
+                        ".color[title=" +
+                            cards[card_id].misc.backgroundColor +
+                            "]"
+                    )
+                    .children("i")
+                    .addClass("fa-check");
+            }
+            $(".color").on("click", function() {
+                if (
+                    $(this)
+                        .attr("title")
+                        .split(" ")[1] == cards[card_id].misc.backgroundColor
+                ) {
+                    $(this)
+                        .children("i")
+                        .removeClass("fa-check");
+                    cards[card_id].misc.color = "4d4d4d";
+                    cards[card_id].misc.backgroundColor = "fff";
+                    cards[card_id].misc.backgroundColorHover = "edeff0";
+                    applyCard(card_id, cards);
+                } else {
+                    $(this)
+                        .siblings(".color")
+                        .children("i")
+                        .removeClass("fa-check");
+                    $(this)
+                        .children("i")
+                        .addClass("fa-check");
+                    cards[card_id].misc.color = "000";
+                    cards[card_id].misc.backgroundColor = $(this)
+                        .attr("title")
+                        .split(" ")[0];
+                    cards[card_id].misc.backgroundColorHover = $(this)
+                        .attr("title")
+                        .split(" ")[1];
+                    console.log(
+                        $(this)
+                            .attr("title")
+                            .split(" ")[0] +
+                            " + " +
+                            $(this)
+                                .attr("title")
+                                .split(" ")[1]
+                    );
+                    applyCard(card_id, cards);
+                }
+            });
         }
+
         $("#overlay").click(function() {
+            dialog.dialog("close");
+        });
+
+        $(".fa-times").click(function() {
             dialog.dialog("close");
         });
     });
@@ -266,7 +346,7 @@ $(function() {
             .parent()
             .replaceWith(
                 "<div id='card-edit-name' class='dialog ignore'>" +
-                    "<textarea id='card-edit-name-textarea' maxlength='200'>" +
+                    "<textarea id='card-edit-name-textarea' maxlength='200' placeholder='Type in card name...'>" +
                     card_name_old +
                     "</textarea>" +
                     "<br>" +
@@ -351,4 +431,7 @@ $(function() {
     // playing with localStorage
     // localStorage.setItem("array", ["a", "b", "c"]);
     // $.each(localStorage.getItem("array").split(","), function(index, value) {});
+
+    $("#add-column")[0].click();
+    $(".column:last > .add-card")[0].click();
 });

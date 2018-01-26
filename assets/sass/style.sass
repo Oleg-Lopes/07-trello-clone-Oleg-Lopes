@@ -69,7 +69,44 @@ body
                     background: #007FFF
                     a
                         cursor: default
-
+            #deadline
+                p
+                    input
+                        width: 250px
+            #misc
+                #colors
+                    display: flex
+                    flex-wrap: wrap
+                    justify-content: center
+                    margin-top: 10px
+                    .color
+                        position: relative
+                        margin: 5px
+                        min-height: 60px
+                        min-width: 200px
+                        border-radius: 3px
+                        cursor: pointer
+                        &:hover
+                            border: 1px solid #0079bf
+                            box-shadow: 0 0 2px 0 #0284c6
+                        .fa
+                            position: absolute
+                            top: 12px
+                            right: 9px
+                            font-size: 36px
+                            color: #4D4D4D
+                    #green
+                        background: #61bd4f
+                    #yellow
+                        background: #f2d600
+                    #orange
+                        background: #ffab4a
+                    #red
+                        background: #eb5a46
+                    #purple
+                        background: #c377e0
+                    #blue
+                        background: #0079bf
     .ui-dialog-titlebar
         display: none
     .ui-dialog
@@ -179,12 +216,15 @@ body
                             border-radius: 3px
                             border-bottom: 1px solid rgb(204, 204, 204)
                             p
+                                margin: 0 20px 0 0
                                 white-space: normal
+                                word-break: break-all
                                 font-size: 14px
                             .fa-edit
                                 position: absolute
                                 top: 6px
                                 right: 6px
+                                padding: 0 0px 3px 3px
                                 font-size: 22px
                                 cursor: pointer
                                 color: #a3a3a3
@@ -215,7 +255,10 @@ body
             #add-column
                 margin: 0 10px 0 10px
                 width: 100px
-                height: 30px
+                height: 40px
+                color: rgba(255,255,255,0.7)
+                font-size: 14px
+                background: #0F669E
                 border: none
                 border-radius: 3px
                 cursor: pointer

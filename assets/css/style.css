@@ -96,6 +96,63 @@ body #card-dialog #card-dialog-tabs ul .ui-tabs-active a, body #card-dialog #car
   cursor: default;
 }
 
+body #card-dialog #card-dialog-tabs #deadline p input {
+  width: 250px;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors .color {
+  position: relative;
+  margin: 5px;
+  min-height: 60px;
+  min-width: 200px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors .color:hover {
+  border: 1px solid #0079bf;
+  box-shadow: 0 0 2px 0 #0284c6;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors .color .fa {
+  position: absolute;
+  top: 12px;
+  right: 9px;
+  font-size: 36px;
+  color: #4D4D4D;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors #green {
+  background: #61bd4f;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors #yellow {
+  background: #f2d600;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors #orange {
+  background: #ffab4a;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors #red {
+  background: #eb5a46;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors #purple {
+  background: #c377e0;
+}
+
+body #card-dialog #card-dialog-tabs #misc #colors #blue {
+  background: #0079bf;
+}
+
 body .ui-dialog-titlebar {
   display: none;
 }
@@ -238,7 +295,9 @@ body main #columns-container #columns .column .cards .card {
 }
 
 body main #columns-container #columns .column .cards .card p {
+  margin: 0 20px 0 0;
   white-space: normal;
+  word-break: break-all;
   font-size: 14px;
 }
 
@@ -246,6 +305,7 @@ body main #columns-container #columns .column .cards .card .fa-edit {
   position: absolute;
   top: 6px;
   right: 6px;
+  padding: 0 0px 3px 3px;
   font-size: 22px;
   cursor: pointer;
   color: #a3a3a3;
@@ -286,7 +346,10 @@ body main #columns-container #columns .column .add-card:hover {
 body main #columns-container #add-column {
   margin: 0 10px 0 10px;
   width: 100px;
-  height: 30px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  background: #0F669E;
   border: none;
   border-radius: 3px;
   cursor: pointer;
