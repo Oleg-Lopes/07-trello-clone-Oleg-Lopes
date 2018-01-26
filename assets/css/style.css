@@ -27,7 +27,7 @@ body .hide {
 }
 
 body #overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -42,11 +42,19 @@ body #card-dialog {
   border-radius: 3px;
 }
 
-body #card-dialog p {
+body #card-dialog h2 {
   margin: 0 65px 0 0;
-  padding: 17px 0 0 20px;
+  padding: 17px 0 5px 20px;
   font-size: 20px;
-  font-weight: 700;
+}
+
+body #card-dialog #column-info {
+  padding: 0 0 0 20px;
+  color: #838c91;
+}
+
+body #card-dialog #column-info #column-info-name {
+  text-decoration: underline;
 }
 
 body #card-dialog .fa-times {
@@ -58,11 +66,42 @@ body #card-dialog .fa-times {
   cursor: pointer;
 }
 
+body #card-dialog #card-dialog-tabs {
+  background: #EDEFF0;
+}
+
+body #card-dialog #card-dialog-tabs ul {
+  padding: 7px 0 0 17px;
+  background: #EDEFF0;
+  border: none;
+}
+
+body #card-dialog #card-dialog-tabs ul li {
+  background: #CDD2D4;
+  border: none;
+  border-radius: 3px;
+}
+
+body #card-dialog #card-dialog-tabs ul li:not(.ui-tabs-active):hover {
+  background: #b6b9ba;
+}
+
+body #card-dialog #card-dialog-tabs ul .ui-tabs-active, body #card-dialog #card-dialog-tabs ul .ui-state-active {
+  padding: 0;
+  margin-bottom: 0px;
+  background: #007FFF;
+}
+
+body #card-dialog #card-dialog-tabs ul .ui-tabs-active a, body #card-dialog #card-dialog-tabs ul .ui-state-active a {
+  cursor: default;
+}
+
 body .ui-dialog-titlebar {
   display: none;
 }
 
 body .ui-dialog {
+  position: fixed;
   padding: 0;
   margin-top: 50px;
   z-index: 999;
@@ -76,12 +115,12 @@ body .ui-widget.ui-widget-content {
   border: none;
 }
 
-body #card-edit-desc {
+body #card-edit-name {
   width: 254px;
   z-index: 100;
 }
 
-body #card-edit-desc textarea {
+body #card-edit-name textarea {
   padding: 8px 10px;
   width: 100%;
   min-height: 100px;
@@ -94,7 +133,7 @@ body #card-edit-desc textarea {
   resize: none;
 }
 
-body #card-edit-desc button {
+body #card-edit-name button {
   margin: 5px 0 10px 0;
   width: 100px;
   height: 30px;

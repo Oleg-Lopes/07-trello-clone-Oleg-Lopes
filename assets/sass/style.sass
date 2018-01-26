@@ -23,7 +23,7 @@ body
         display: none
 
     #overlay
-        position: absolute
+        position: fixed
         top: 0
         left: 0
         width: 100vw
@@ -34,11 +34,15 @@ body
     #card-dialog
         background: #EDEFF0
         border-radius: 3px
-        p
+        h2
             margin: 0 65px 0 0
-            padding: 17px 0 0 20px
+            padding: 17px 0 5px 20px
             font-size: 20px
-            font-weight: 700
+        #column-info
+            padding: 0 0 0 20px
+            color: #838c91
+            #column-info-name
+                text-decoration: underline
         .fa-times
             position: absolute
             top: 10px
@@ -46,10 +50,30 @@ body
             padding: 7px 10px 7px 7px
             font-size: 36px
             cursor: pointer
+        #card-dialog-tabs
+            background: #EDEFF0
+            ul
+                // display: inline-block
+                padding: 7px 0 0 17px
+                background: #EDEFF0
+                border: none
+                li
+                    background: #CDD2D4
+                    border: none
+                    border-radius: 3px
+                    &:not(.ui-tabs-active):hover
+                        background: #b6b9ba
+                .ui-tabs-active, .ui-state-active
+                    padding: 0
+                    margin-bottom: 0px
+                    background: #007FFF
+                    a
+                        cursor: default
 
     .ui-dialog-titlebar
         display: none
     .ui-dialog
+        position: fixed
         padding: 0
         margin-top: 50px
         z-index: 999
@@ -58,7 +82,7 @@ body
     .ui-widget.ui-widget-content
         border: none
 
-    #card-edit-desc
+    #card-edit-name
         width: 254px
         z-index: 100
         textarea

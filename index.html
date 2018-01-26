@@ -19,8 +19,39 @@
     <main>
         <div id="overlay" class="hide">
             <div id="card-dialog" class="ignore hide">
-                <p>Hello</p>
+                <h2></h2>
+                <span id="column-info"></span>
                 <i class="fa fa-times"></i>
+                <div id="card-dialog-tabs">
+                    <ul>
+                        <li>
+                            <a href="#description">Description</a>
+                        </li>
+                        <li>
+                            <a href="#deadline">Deadline</a>
+                        </li>
+                        <li>
+                            <a href="#contributors">Contributors</a>
+                        </li>
+                        <li>
+                            <a href="#misc">Misc</a>
+                        </li>
+                    </ul>
+                    <div id="description">
+                        <p></p>
+                    </div>
+                    <div id="deadline">
+                        <p>Deadline:
+                            <input type="text" id="datepicker">
+                        </p>
+                    </div>
+                    <div id="contributors">
+                        <p>Me and only me</p>
+                    </div>
+                    <div id="misc">
+                        <p>Wanna change some colors?</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="top-info">
@@ -28,70 +59,26 @@
         </div>
         <div id="columns-container">
             <div id="columns">
-                <div class="column">
-                    <h3 class="column-name ignore">Column Name</h3>
+                <div class="column" id="column1">
+                    <h3 class="column-name ignore">Click to edit column name</h3>
                     <div class="cards">
-                        <div class="card">
+                        <div class="card" id="card1">
                             <p>
-                                Lorem ipsum!
+                                I am a test card!
                             </p>
                             <i class="fa fa-edit ignore hide"></i>
                         </div>
-                        <div class="card">
-                            <p>1-2</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>1-3</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>1-4</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>1-5</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <button class="add-card ignore">Add a card...</button>
-                </div>
-                <div class="column">
-                    <h3 class="column-name ignore">Column Name</h3>
-                    <div class="cards">
-                        <div class="card">
+                        <div class="card" id="card2">
                             <p>
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates, odit!
+                                Click the icon on the right to edit my name...
                             </p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
+                            <i class="fa fa-edit ignore hide"></i>
                         </div>
-                        <div class="card">
-                            <p>2-2</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>2-3</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>2-4</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>2-5</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>2-6</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>2-7</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
-                        </div>
-                        <div class="card">
-                            <p>2-8</p>
-                            <i class="fa fa-edit ignore hide" aria-hidden="true"></i>
+                        <div class="card" id="card3">
+                            <p>
+                                ...or click me to browse my content!
+                            </p>
+                            <i class="fa fa-edit ignore hide"></i>
                         </div>
                     </div>
                     <button class="add-card ignore">Add a card...</button>
