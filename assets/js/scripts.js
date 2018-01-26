@@ -29,7 +29,7 @@ function loadCards(card, cards) {
         $(card)
             .attr("id")
             .split("card")[1];
-    applyCard(card_id, cards);
+    applyCard(card_id, cards); // applying it properties
 }
 
 function applyCard(card_id, cards) {
@@ -49,7 +49,7 @@ function applyCard(card_id, cards) {
                     background: "#" + cards[card_id].misc.backgroundColor
                 });
             }
-        });
+        }); // applying to card changed style properties
 }
 
 function sortInit() {
@@ -71,7 +71,9 @@ function sortInit() {
                 height: ui.item.height() + 16
             });
         }
-    });
+    }); // cards are sortable between all .cards containers
+    // also they have placeholders
+
     $("#columns").sortable({
         tolerance: "pointer",
         helper: "clone",
@@ -87,19 +89,20 @@ function sortInit() {
             });
         },
         scroll: false
-    });
+    }); // columns are sortable and have placeholders
 }
 
 function saveColumn(column_name) {
     let column_name_new = $("#column-edit-name-input").val(); // getting new name
     $("#column-edit-name").replaceWith(column_name[0]); // getting column name back
     column_name.text(column_name_new); // inserting new name
-    column_name = null;
+    column_name = null; // resetting column name var
 }
 
-function saveCard(card_backup, cards) {
+function saveCard(card_backup, cards, e) {
     let card_name_new = $("#card-edit-name-textarea").val(); // getting new name
     if (!card_name_new.trim()) {
+        e.preventDefault(); // preventing new row
         $("#card-edit-name-textarea")
             .focus()
             .effect("shake", { distance: 5 }); // if its empty - focus on textarea again
@@ -107,88 +110,104 @@ function saveCard(card_backup, cards) {
         $("#card-edit-name").replaceWith(card_backup[0]); // getting card back
         card_backup.children("p").text(card_name_new); // inserting new name
         card_backup.children("i").addClass("hide"); // hiding icon
-        card_backup = null;
+        card_backup = null; // resetting card var
 
-        loadCards($(".card:last"), cards);
+        loadCards($(".card:last"), cards); // loading this new card into cards{} array
     }
 }
 
 function cancelCard(card_backup) {
     $("#card-edit-name").replaceWith(card_backup[0]);
-    card_backup.children("i").addClass("hide");
+    card_backup.children("i").addClass("hide"); // hiding edit-icon
     card_backup = null; // resetting card var
 }
 
-function preventEmptyCard(card_backup) {
+function preventEmptyCard(card_backup, cards) {
     if ($("#card-edit-name").length) {
         $("#card-edit-name").replaceWith(card_backup[0]); // replacing cards name changing with card itslef
         card_backup.children("i").addClass("hide"); // hiding icon
         if (!card_backup.children("p").text()) {
             card_backup.remove(); // if card was empty before (newly created) and still is - delete it
+            card_backup = null; // resetting card var
+            return;
         }
+        let card_id =
+            "card" +
+            $(card_backup)
+                .attr("id")
+                .split("card")[1];
+        applyCard(card_id, cards); // reapplying it properties
         card_backup = null; // resetting card var
     }
 }
 
 ////////////////////////////////////////////////////////////////////
+////////////////////// END - FUNCTIONS /////////////////////////////
 ////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+/////////////////// START - DOCUMENT.READY /////////////////////////
 ////////////////////////////////////////////////////////////////////
 
 $(function() {
-    var cards = {};
+    var cards = {}; // info array about all cards - existing and created
+    var card_last_id = parseInt(
+        $(".card:last")
+            .attr("id")
+            .split("card")[1]
+    ); // id of last card created
+    var column_last_id = parseInt(
+        $(".column:last")
+            .attr("id")
+            .split("column")[1]
+    ); // id of last column created
+    var card_backup = null; // placeholder vars
+    var card_dialog = null;
+    var card_id = null;
+    var column_name = null;
+    var dialog = $("#card-dialog"); // shortcuts for dialog...
+    var tabs = $("#card-dialog-tabs"); // ...and tab
+
     $(".card").each(function() {
         loadCards(this, cards);
     }); // loading hardcoded cards into array
 
     sortInit(); // making things sortable
-    var column_name = null;
-    var card_last_id = parseInt(
-        $(".card:last")
-            .attr("id")
-            .split("card")[1]
-    );
-    var column_last_id = parseInt(
-        $(".column:last")
-            .attr("id")
-            .split("column")[1]
-    );
-    var card_backup = null;
-    var card_dialog = null;
-    var card_id = null;
-    var dialog = $("#card-dialog");
-    var tabs = $("#card-dialog-tabs");
 
-    ////////////////////////////
-    ////////// DIALOG //////////
-    ////////////////////////////
+    /////////////////////////////////////////
+    //////////// START -  DIALOG ////////////
+    /////////////////////////////////////////
     $("#card-dialog").dialog({
         autoOpen: false,
         draggable: false,
         resizable: false,
         width: 750,
         minHeight: 600,
+        esponsive: true,
         position: {
             at: "center top",
             my: "center"
         },
         close: function() {
-            $("#overlay").addClass("hide");
-            $(".color").unbind("click");
+            $("#overlay").addClass("hide"); // closing overlay
+            $(".color").unbind("click"); // unbinding eventhandler
         }
-    });
+    }); // customizing dialog
+
     $(document).on("click", ".card", function(e) {
         if (!$(e.target).hasClass("fa-edit")) {
             if (card_backup != null) {
-                preventEmptyCard(card_backup);
+                preventEmptyCard(card_backup, cards);
                 cancelCard(card_backup);
             } // resetting if edit is open
-            dialog.dialog("open");
-            $("#overlay").removeClass("hide");
-            card_dialog = $(this);
-            card_id =
-                "card" + parseInt(card_dialog.attr("id").split("card")[1]);
 
-            dialog.children("h2").text(card_dialog.children("p").text());
+            dialog.dialog("open"); // opening dialog
+            $("#overlay").removeClass("hide"); // opening overlay
+            card_dialog = $(this); // the card we just clicked
+            card_id =
+                "card" + parseInt(card_dialog.attr("id").split("card")[1]); // id of that card
+
+            dialog.children("h2").text(card_dialog.children("p").text()); // name of the card => dialog title
             dialog.children("span").html(
                 "in column <span id='column-info-name'>" +
                     card_dialog
@@ -196,8 +215,8 @@ $(function() {
                         .siblings(".column-name")
                         .text() +
                     "</span>"
-            );
-            tabs.tabs({ active: 0 });
+            ); // name of the column where the cards lies
+            tabs.tabs({ active: 0 }); // make it tabs!
 
             $("#datepicker").datepicker({
                 onSelect: function(date) {
@@ -206,11 +225,12 @@ $(function() {
                 changeMonth: true,
                 changeYear: true,
                 dateFormat: "DD, d MM, yy"
-            });
-            $("#description p").text(cards[card_id].description);
-            $("#deadline p input").val(cards[card_id].deadline);
-            $("#contributors p").val(cards[card_id].contributors);
+            }); // datepicker to pick deadline
+            $("#description p").text(cards[card_id].description); // showing description
+            $("#deadline p input").val(cards[card_id].deadline); // showing deadline
+            $("#contributors p").val(cards[card_id].contributors); // showing contributors
 
+            // START - COLORS
             if (cards[card_id].misc.backgroundColor == "#fff") {
                 $("#colors")
                     .find(".color")
@@ -225,12 +245,13 @@ $(function() {
                     )
                     .children("i")
                     .addClass("fa-check");
-            }
+            } // showing/hiding icon which indicates which color is currently chosed
+
             $(".color").on("click", function() {
                 if (
                     $(this)
                         .attr("title")
-                        .split(" ")[1] == cards[card_id].misc.backgroundColor
+                        .split(" ")[0] == cards[card_id].misc.backgroundColor
                 ) {
                     $(this)
                         .children("i")
@@ -238,7 +259,7 @@ $(function() {
                     cards[card_id].misc.color = "4d4d4d";
                     cards[card_id].misc.backgroundColor = "fff";
                     cards[card_id].misc.backgroundColorHover = "edeff0";
-                    applyCard(card_id, cards);
+                    applyCard(card_id, cards); // restoring it properties
                 } else {
                     $(this)
                         .siblings(".color")
@@ -254,61 +275,33 @@ $(function() {
                     cards[card_id].misc.backgroundColorHover = $(this)
                         .attr("title")
                         .split(" ")[1];
-                    console.log(
-                        $(this)
-                            .attr("title")
-                            .split(" ")[0] +
-                            " + " +
-                            $(this)
-                                .attr("title")
-                                .split(" ")[1]
-                    );
-                    applyCard(card_id, cards);
+                    applyCard(card_id, cards); // applying it properties
                 }
             });
+            // END - COLORS
         }
 
         $("#overlay").click(function() {
-            dialog.dialog("close");
+            dialog.dialog("close"); // closing dialog
         });
 
         $(".fa-times").click(function() {
-            dialog.dialog("close");
+            dialog.dialog("close"); // closing dialog
         });
     });
-    ////////////////////////////
-    ////////// DIALOG //////////
-    ////////////////////////////
+    //////////////////////////////////////////
+    ////////////// END - DIALOG //////////////
+    //////////////////////////////////////////
 
-    // handling all clicks off the targets, to close dialogs/input and etc.
-    $(document).on("click", function(e) {
-        if (
-            !$(e.target).closest(".ignore").length &&
-            !$(e.target).hasClass("ignore")
-        ) {
-            preventEmptyCard(card_backup);
-
-            if ($("#column-edit-name").length) {
-                saveColumn(column_name); // saving column name when clicking somewhere else on the screen
-            }
-        }
-    });
-
-    $(document).on("keydown", function(e) {
-        if (e.which == 27) {
-            if (dialog.dialog("isOpen")) {
-                dialog.dialog("close");
-            }
-        }
-    });
-
-    // changing column name
+    ////////////////////////////////////////////////////
+    ////// START - CHANGING COLUMN AND CARD NAMES //////
+    ////////////////////////////////////////////////////
     $(document).on("click", ".column-name", function() {
         if (column_name != null) {
-            saveColumn(column_name);
+            saveColumn(column_name); // saving column name
         } // saving an open column name, before editing another one
 
-        preventEmptyCard(card_backup); // closing cards name editing if it was open
+        preventEmptyCard(card_backup, cards); // closing cards name editing if it was open
 
         // show column name editing field
         column_name = $(this); // saving column name object
@@ -331,7 +324,7 @@ $(function() {
     // changing card name
     $(document).on("click", ".fa-edit", function(e) {
         if (card_backup != null) {
-            preventEmptyCard(card_backup);
+            preventEmptyCard(card_backup, cards); // preventing creation of empty cards
             cancelCard(card_backup);
         } // resetting if another edit is open
 
@@ -357,7 +350,7 @@ $(function() {
 
         $("#card-edit-name-textarea").keydown(function(e) {
             if (e.which == 13) {
-                saveCard(card_backup, cards); // saving card on pressing Enter
+                saveCard(card_backup, cards, e); // saving card on pressing Enter
             } else if (e.which == 27) {
                 // if Esc pressed
                 $("#card-edit-name").replaceWith(card_backup[0]); // replacing cards name changing with card itslef
@@ -365,14 +358,23 @@ $(function() {
                 if (!card_backup.children("p").text()) {
                     card_backup.remove(); // if card was empty before (newly created) and still is - delete it
                 }
+                let card_id =
+                    "card" +
+                    $(card_backup)
+                        .attr("id")
+                        .split("card")[1];
+                applyCard(card_id, cards); // reapplying it properties
                 card_backup = null; // resetting card var
             }
         });
 
-        $("#card-edit-name-save").click(function() {
-            saveCard(card_backup, cards); // saving card on pressing save button
+        $("#card-edit-name-save").click(function(e) {
+            saveCard(card_backup, cards, e); // saving card on pressing save button
         });
     });
+    ////////////////////////////////////////////////////
+    /////// END - CHANGING COLUMN AND CARD NAMES ///////
+    ////////////////////////////////////////////////////
 
     $(document).on(
         {
@@ -390,10 +392,36 @@ $(function() {
         ".card"
     );
 
+    // handling all clicks off the targets, to close dialogs/input and etc.
+    $(document).on("click", function(e) {
+        if (
+            !$(e.target).closest(".ignore").length &&
+            !$(e.target).hasClass("ignore")
+        ) {
+            preventEmptyCard(card_backup, cards); // preventing creation of empty cards
+
+            if ($("#column-edit-name").length) {
+                saveColumn(column_name);
+                // saving column name when clicking somewhere else on the screen
+            }
+        }
+    });
+
+    $(document).on("keydown", function(e) {
+        if (e.which == 27) {
+            if (dialog.dialog("isOpen")) {
+                dialog.dialog("close"); // closing dialog on esc
+            }
+        }
+    });
+
+    ///////////////////////////////////////////////////////
+    /////////// START - ADDING COLUMNS AND CARDS //////////
+    ///////////////////////////////////////////////////////
     $(document).on("click", "#add-column", function() {
         column_last_id++;
         // column mockup
-        let column_temp =
+        let column_mockup =
             "<div class='column' id='column" +
             column_last_id +
             "'>" +
@@ -403,17 +431,17 @@ $(function() {
             "</div>";
         $(this)
             .siblings("#columns")
-            .append(column_temp)
+            .append(column_mockup)
             .children(".column:last")
             .children(".column-name")
-            .trigger("click"); // creating new column with insta popup to name it
+            .click(); // creating new column with insta popup to name it
         sortInit(); // adding more columns and making them sortable
     });
 
     $(document).on("click", ".add-card", function() {
         card_last_id++;
         // card mockup
-        let card_temp =
+        let card_mockup =
             "<div class='card' id='card" +
             card_last_id +
             "'>" +
@@ -422,16 +450,19 @@ $(function() {
             "</div>";
         $(this)
             .siblings(".cards")
-            .append(card_temp)
+            .append(card_mockup)
             .children(".card:last")
             .children(".fa-edit")
             .trigger("click"); // creating new card with insta popup for name
     });
+    //////////////////////////////////////////////////////
+    /////////// END - ADDING COLUMNS AND CARDS ///////////
+    //////////////////////////////////////////////////////
 
     // playing with localStorage
     // localStorage.setItem("array", ["a", "b", "c"]);
     // $.each(localStorage.getItem("array").split(","), function(index, value) {});
-
-    $("#add-column")[0].click();
-    $(".column:last > .add-card")[0].click();
 });
+////////////////////////////////////////////////////////////////////
+//////////////////// END - DOCUMENT.READY //////////////////////////
+////////////////////////////////////////////////////////////////////
