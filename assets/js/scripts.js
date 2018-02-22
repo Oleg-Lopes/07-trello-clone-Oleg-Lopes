@@ -141,6 +141,13 @@ function preventEmptyCard(card_backup, cards) {
     }
 }
 
+$.fn.lightMeUp = function() {
+    this.css({ color: "#fff", cursor: "pointer" });
+    this.mouseleave(function() {
+        $(this).css({ color: "#7FB3D1" });
+    });
+}; // just a small plugin to light up Heading on hover
+
 ////////////////////////////////////////////////////////////////////
 ////////////////////// END - FUNCTIONS /////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -171,6 +178,10 @@ $(function() {
     $(".card").each(function() {
         loadCards(this, cards);
     }); // loading hardcoded cards into array
+
+    $("header h1").mouseover(function() {
+        $(this).lightMeUp();
+    }); // just a small plugin to light up Heading on hover
 
     sortInit(); // making things sortable
 
